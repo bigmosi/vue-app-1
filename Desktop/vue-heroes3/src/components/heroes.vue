@@ -49,7 +49,7 @@
                 <label for="power">
                   super power
                   <div class="select is-primary">
-                    <select id="power" v-model="hero.power" :class="{invalid: !hero.power}">
+                    <select id="power" v-model="hero.power" :class="{invalid: !hero.power}" @keyup.esc="clearPower">
                       <option disabled value>Please select one</option>
                       <option>Speed</option>
                       <option>Flight</option>
@@ -106,8 +106,11 @@ export default {
       this.message = '';
       
     },
+    clearPower(){
+      this.hero.power = '';
+    },
     saveHero(){
-      this.message=JSON.stringify( this.hero,'\n' );
+      this.message=JSON.stringify( this.hero, null,'\n' );
     }
   },
 };
