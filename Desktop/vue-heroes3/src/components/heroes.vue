@@ -30,24 +30,26 @@
               <div class="field">
                 <label class="label">cape color</label>
                 <label class="radio" for="color-red">
-                  <input type="radio" id="color-red" value="red" />
+                  <input type="radio" id="color-red" value="red" v-model="hero.capeColor" />
                   red
                 </label>
                 <label class="radio" for="color-blue">
-                  <input type="radio" id="color-blue" value="blue" />
+                  <input type="radio" id="color-blue" value="blue" v-model="hero.capeColor"/>
                   blue
                 </label>
                 <label class="radio" for="color-green">
-                  <input type="radio" id="color-green" value="green" />
+                  <input type="radio" id="color-green" value="green" v-model="hero.capeColor"/>
                   green
                 </label>
-                <div class="color-line"></div>
+                <div class="color-line" 
+                :style="{'background-color':hero.capeColor}"
+                ></div>
               </div>
               <div class="field">
                 <label for="power">
                   super power
                   <div class="select is-primary">
-                    <select id="power">
+                    <select id="power" v-model="hero.power" :class="{invalid: !hero.power}">
                       <option disabled value>Please select one</option>
                       <option>Speed</option>
                       <option>Flight</option>
@@ -76,7 +78,7 @@
             </button>
           </footer>
         </div>
-        <div class="notification is-info"><pre>{{ message }}</pre></div>
+        <div class="notification is-info"><pre> {{ message }} </pre></div>
       </div>
     </div>
   </div>
@@ -104,8 +106,8 @@ export default {
       this.message = '';
       
     },
-    saveHero() {
-      this.message = JSON.stringify(this.hero, '\n');
+    saveHero(){
+      this.message=JSON.stringify( this.hero,'\n' );
     }
   },
 };
