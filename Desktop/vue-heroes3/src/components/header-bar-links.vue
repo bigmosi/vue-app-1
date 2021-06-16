@@ -28,7 +28,7 @@ export default {
  data() {
    return {
      github: 'https://github.com/kinyeramos2021',
-     twitter: 'https://twitter.com/john_papa'
+     twitter: 'https://twitter.com/AmosKinyera'
    }
  },
 };
