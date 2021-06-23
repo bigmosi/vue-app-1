@@ -2,6 +2,7 @@ import React from 'react'
 
 function Newsletter(props) {
   const [email, setEmail] = React.useState('')
+  const [emailFocused, setEmailFocused] = React.useState(false)
   // const emailPartsCount = countEmailParts(email)
   return (
     <section style={styles.container()}>
@@ -14,11 +15,13 @@ function Newsletter(props) {
         <h2 style={styles.headerH2()}>Get the newsletter</h2>
       </header>
       <input
-        style={styles.email()}
+        style={styles.email({ focused:emailFocused })}
         type="email"
         placeholder="Your email"
         value={email}
         onChange={(evt) => setEmail(evt.target.value)}
+        onFocus={() => setEmailFocused(true)}
+        onBlur={() => setEmailFocused(false)}
       />
       <button style={styles.submit()}>Sign up</button>
     </section>
@@ -71,7 +74,7 @@ const styles = {
   headerH2: () => ({
     margin: '0 0 0.5em 0',
   }),
-  email: () => ({
+  email: ({ focused }) => ({
     position: 'relative',
     height: '2em',
     lineHeight: '2em',
@@ -84,7 +87,7 @@ const styles = {
     background: 'inherit',
     textAlign: 'inherit',
     outlineOffset: '0.15em',
-    outline: 'none',
+    outline: focused ? '2px solid #fff' : 'none',
   }),
   submit: () => ({
     position: 'absolute',
