@@ -11,6 +11,11 @@ use App\Models\User;
 use App\Models\Category;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use Illuminate\Validation\ValidationException;
+use App\Jobs\SendWelcomeEmail;
+use App\Jobs\ProcessPayment;
+use App\Jobs\PullRepo;
+use App\Jobs\RunTests;
+use App\Jobs\Deploy;
 
 
 /*
@@ -23,9 +28,19 @@ use Illuminate\Validation\ValidationException;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', function(){
+        $batch=[
+            new \App\Jobs\PullRepo('laracasts/project1'),
+            new \App\Jobs\RunTests('laracasts/project2'),
+            new \App\Jobs\Deploy('laracasts/project3'),
+        ];
 
+        \Illuminate\Support\Facades\Bus::batch($batch)->dispatch();
+
+    return ('home');
+});
 Route::post('newsletter', NewsletterController::class);
-Route::get('/', [PostController::class, 'index'])->name('home');
+//Route::get('/', [PostController::class, 'index'])->name('home');
 
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
