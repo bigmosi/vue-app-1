@@ -1,10 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SessionController;
+use App\Http\Controllers\NewsletterController;
+use App\Http\Middleware\MustBeAdministrator;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
+use Illuminate\Validation\ValidationException;
 
 
 /*
@@ -18,48 +24,28 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 |
 */
 
-Route::get('/', function () {
+Route::post('newsletter', NewsletterController::class);
+Route::get('/', [PostController::class, 'index'])->name('home');
 
-    return view('posts', [
-        
-        'posts' => Post::latest()->get(),
+Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
-        'categories' => Category::all()
+Route::get('register', [RegisterController::class, 'create'])->middleware('guest');
+Route::post('register', [RegisterController::class, 'store'])->middleware('guest');
 
+Route::get('login', [SessionController::class, 'create'])->middleware('guest');
+Route::post('login', [SessionController::class, 'store'])->middleware('guest');
+Route::post('logout', [SessionController::class, 'destroy'])->middleware('auth');
+Route::get('admin/posts/create', [PostController::class, 'create']);
+Route::get('admin/posts', [PostController::class, 'store']);
 
-     ]);
-});
-
-Route::get('posts/{post}', function(Post $post){
-
-    return view('post', [
-
-        'post' => $post
-    ]);
-
-})->name('home');
-
-
-Route::get('categories/{category:slug}', function(Category $category){
-
-    return view('posts', [
-        
-        'posts' => $category->posts,
-        'currentCategory' => $category,
-        'categories' => Category::all()
-
-     ]);
-
-})->name('category');
 
 Route::get('authors/{author:username}', function(User $author){
 
     
-    return view('posts', [
+    return view('posts.index', [
         
         'posts' => $author->posts,
-        'categories' => Category::all()
+        
 
      ]);
-
-});
+    });

@@ -12,7 +12,9 @@
                     <div class="flex items-center lg:justify-center text-sm mt-4">
                         <img src="/images/lary-avatar.svg" alt="Lary avatar">
                         <div class="ml-3 text-left">
-                            <h5 class="font-bold">{{ $post->author->name}}</h5>
+                        <h5 class="font-bold">
+                            <a href="/authors{{ $post->author->username }}">{{ $post->author->name }}</a>
+                        </h5>
                         </div>
                     </div>
                 </div>
@@ -46,6 +48,26 @@
                     <div class="space-y-4 lg:text-lg leading-loose">{!! $post->body !!}</body>
                         
                 </div>
+                
+                <section class="col-span-8 col-start-5 mt-10 space-y-6">
+                <form method="POST" action="#" class="border border-gray-200 p-6 rounded-xl">
+                        @csrf 
+                        <header class="flex text-center">
+                        <img  src="https://i.pravatar.cc/60?u={{ auth()->id }}" alt="" width="40" height="40" class="rounded-full" />
+
+                        <h2 class="ml-3">Want to participate</h2>
+
+                        </header>
+
+                    </form>
+
+
+                  @foreach($post->comments as $comment)
+                    <x-post-comment :comment="$comment"/>
+
+                  @endforeach
+                </section>
+
             </article>
         </main>       
     </section>

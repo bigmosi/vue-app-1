@@ -13,7 +13,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        app()->bind(Newsletter::class, function() {
+            return new Newsletter(
+                new ApiClient(),
+                'foobar'
+            );
+        });
     }
 
     /**
