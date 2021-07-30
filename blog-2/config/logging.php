@@ -40,6 +40,10 @@ return [
             'channels' => ['single'],
             'ignore_exceptions' => false,
         ],
+        'single' => [
+            'driver' =>'errorlog',
+            'level' =>'debug',
+        ],
 
         'single' => [
             'driver' => 'single',
